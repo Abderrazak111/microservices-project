@@ -6,41 +6,37 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
-@RequestMapping("/users")
 public class UserController {
 
-    private final UserService userService;
+    private final UserService service;
 
-    // ✅ GET ALL
-    @GetMapping
-    public List<Users> getUsers() {
-        return userService.getAllUsers();
-    }
-
-    // ✅ GET BY ID
-    @GetMapping("/{id}")
-    public Users getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
-    }
-
-    // ✅ CREATE
     @PostMapping
-    public Users createUser(@RequestBody Users user) {
-        return userService.saveUser(user);
+    public Users create(@RequestBody Users user) {
+        return service.createUser(user);
     }
 
-    // ✅ UPDATE
+    @GetMapping
+    public List<Users> all() {
+        return service.getAllUsers();
+    }
+
+    @GetMapping("/{id}")
+    public Users byId(@PathVariable UUID id) {
+        return service.getUserById(id);
+    }
+
     @PutMapping("/{id}")
-    public Users updateUser(@PathVariable Long id, @RequestBody Users user) {
-        return userService.updateUser(id, user);
+    public Users update(@PathVariable UUID id, @RequestBody Users user) {
+        return service.updateUser(id, user);
     }
 
-    // ✅ DELETE
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+    public void delete(@PathVariable UUID id) {
+        service.deleteUser(id);
     }
 }

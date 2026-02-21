@@ -5,44 +5,49 @@ import com.microservices_project.service_user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
+    private final UserRepository repository;
 
-    // GET ALL
+    public Users createUser(Users user) {
+        return repository.save(user);
+    }
+
     public List<Users> getAllUsers() {
-        return userRepository.findAll();
+        return repository.findAll();
     }
 
-    // GET BY ID
-    public Users getUserById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+    public Users getUserById(UUID id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    // CREATE
-    public Users saveUser(Users user) {
-        return userRepository.save(user);
+    public Users updateUser(UUID id, Users updated) {
+        Users user = getUserById(id);
+
+        user.setNom(updated.getNom());
+        user.setPrenom(updated.getPrenom());
+        user.setEmail(updated.getEmail());
+        user.setAvatarUrl(updated.getAvatarUrl());
+        user.setDepartement(updated.getDepartement());
+        user.setPoste(updated.getPoste());
+
+        return repository.save(user);
     }
 
-    // UPDATE
-    public Users updateUser(Long id, Users user) {
-        Users existing = getUserById(id); // on utilise getUserById
-
-        existing.setUsername(user.getUsername());
-        existing.setEmail(user.getEmail());
-        existing.setPassword(user.getPassword());
-
-        return userRepository.save(existing);
+    public void deleteUser(UUID id) {
+        repository.deleteById(id);
     }
 
-    // DELETE
-    public void deleteUser(Long id) {
-        Users existing = getUserById(id); // vérifie que l'utilisateur existe
-        userRepository.delete(existing);
+    public void updateLastLogin(UUID id) {
+        Users user = getUserById(id);
+        user.setDerniereConnexion(LocalDateTime.now());
+        repository.save(user);
     }
 }

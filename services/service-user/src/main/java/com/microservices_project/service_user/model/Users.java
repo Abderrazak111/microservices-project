@@ -1,25 +1,41 @@
 package com.microservices_project.service_user.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
-@Table(name = "users")  // le nom exact de la table PostgreSQL
-@Data
+@Table(name = "users")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Users {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    private String username;
+    @Id
+    @GeneratedValue
+    private UUID id;
+
+    @Column(name = "keycloak_id", nullable = false, unique = true)
+    private UUID keycloakId;
+
+    private String nom;
+    private String prenom;
+
+    @Column(nullable = false, unique = true)
     private String email;
-    private String password;
+
+    private String avatarUrl;
+    private String departement;
+    private String poste;
+
+    private LocalDateTime dateCreation;
+    private LocalDateTime derniereConnexion;
+
+    @PrePersist
+    public void prePersist() {
+        this.dateCreation = LocalDateTime.now();
+    }
 }
