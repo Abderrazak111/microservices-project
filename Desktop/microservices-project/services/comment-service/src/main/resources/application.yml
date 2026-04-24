@@ -1,0 +1,10 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: comment-service
+
+  # Config server optionnel
+  config:
+    import: "configserver:http://localhost:8888"
