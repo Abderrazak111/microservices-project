@@ -53,7 +53,7 @@ services:
     command: start-dev --import-realm
     environment:
       KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://host.docker.internal:5432/keycloak
+      KC_DB_URL: jdbc:postgresql://host.docker.internal:5432/keycloak_db
       KC_DB_USERNAME: postgres
       KC_DB_PASSWORD: ABDO0505
       KEYCLOAK_ADMIN: admin
