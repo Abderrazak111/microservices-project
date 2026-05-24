@@ -11,8 +11,8 @@ services:
     container_name: minio
     command: server /data --console-address ":9001"
     environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
+      MINIO_ROOT_USER: MINIO_ROOT_USER
+      MINIO_ROOT_PASSWORD: MINIO_ROOT_PASSWORD
     ports:
       - "9000:9000"   # S3 API
       - "9001:9001"   # Web Console  →  http://localhost:9001
@@ -55,9 +55,9 @@ services:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://host.docker.internal:5432/keycloak_db
       KC_DB_USERNAME: postgres
-      KC_DB_PASSWORD: ABDO0505
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB_PASSWORD: KEYCLOAK_DB_PASSWORD
+      KEYCLOAK_ADMIN: KEYCLOAK_ADMIN
+      KEYCLOAK_ADMIN_PASSWORD: KEYCLOAK_ADMIN_PASSWORD
       KC_HOSTNAME_STRICT: "false"
       KC_HTTP_ENABLED: "true"
       KC_HOSTNAME_STRICT_HTTPS: "false"
@@ -141,7 +141,7 @@ services:
       SPRING_CLOUD_CONFIG_ENABLED: "true"
       SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/incidents_db
       SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: ABDO0505
+      SPRING_DATASOURCE_PASSWORD: INCIDENT_DB_PASSWORD
       MINIO_URL: http://minio:9000
       MINIO_ACCESS_KEY: minioadmin
       MINIO_SECRET_KEY: minioadmin
@@ -182,7 +182,7 @@ services:
       SPRING_CLOUD_CONFIG_ENABLED: "true"
       SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/service_user_db
       SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: ABDO0505
+      SPRING_DATASOURCE_PASSWORD: USER_DB_PASSWORD
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/realms/incidents-realm
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-service:8761/eureka
     depends_on:
@@ -216,7 +216,7 @@ services:
       SPRING_CONFIG_IMPORT: configserver:http://config-server:8888
       SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/comment_db
       SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: ABDO0505
+      SPRING_DATASOURCE_PASSWORD: COMMENT_DB_PASSWORD
       MINIO_ENDPOINT: http://minio:9000
       MINIO_ACCESS_KEY: minioadmin
       MINIO_SECRET_KEY: minioadmin
@@ -256,7 +256,7 @@ services:
       SPRING_CONFIG_IMPORT: configserver:http://config-server:8888
       SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/chat_db
       SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: ABDO0505
+      SPRING_DATASOURCE_PASSWORD: CHAT_DB_PASSWORD
       INCIDENT_SERVICE_URL: http://service-incident:8082
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/realms/incidents-realm
       EUREKA_CLIENT_ENABLED: "true"
